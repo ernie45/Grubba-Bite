@@ -1,0 +1,13 @@
+var express = require("express");
+var app = express();
+var bodyParser = require("body-parser");
+app.use(express.static("public"));
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+var bars = require("express-handlebars");
+var methodOveride = require("method-override");
+app.engine("handlebars", bars({defaultLayout: "main"}));
+app.set("view engine", "handlebars");
+var apiRoutes = require("./models/burgers-controller.js");
+app.use(apiRoutes);
+app.listen(3306); 
