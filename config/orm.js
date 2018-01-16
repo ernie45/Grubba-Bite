@@ -1,41 +1,55 @@
-var connection = require("./connection");
+var connection = require("./connection.js");
 var orm = {
-    selectAll: function(){
+    selectAll: function(callback){
+        var resArray = [];
         connection.query("SELECT * FROM burgers;", function(error, result){
             if (error){
                 throw error;
-            }
-            callback(result); 
+            } 
+            callback(result);
         });
     },
-    insertOne: function(burger_name, devoured, date){
+    insertOne: function(burger_name, callback){
         connection.query(
-            "INSERT INTO burgers (burger_name, devoured, date) VALUES (?,?,?)",
+            "INSERT INTO burgers SET ?",
             {
-                burger_name: burger_name,
-                devoured: devoured,
-                date: date
+                burger_name: burger_name
             },
             function(error, result){
-                orm.updateOne(burger_name, devoured, date);
+                if (error){
+                    throw error;
+                }
+                callback(result);
             }
         );
     },
-    updateOne: function(burger_name, devoured, date){
+    updateOne: function(id, devoured, callback){
         connection.query(
             "UPDATE burgers SET ? WHERE ?",
             [
                 {
-                    devoured: devoured
+                    devoured: Boolean(devoured)
                 },
                 {
-                    burger_name: burger_name 
+                    id: id 
                 }
             ],
             function(error, result){
-                console.log("updated a burger");
+                if (error){
+                    throw error;
+                }
+                callback(result);
             }
         )
+    },
+    deleteOne: function(condition, callback){
+        connection.query(
+            "DELETE FROM burgers WHERE id = " + condition, function(error, result){
+                if (error){
+                    throw error;
+                }
+                callback(result);
+            });
     }
 };
 module.exports = orm;

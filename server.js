@@ -1,13 +1,26 @@
+/** Require dependencies from npm */
 var express = require("express");
-var app = express();
-var bodyParser = require("body-parser");
-app.use(express.static("public"));
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(bodyParser.json());
 var bars = require("express-handlebars");
-var methodOveride = require("method-override");
+var bodyParser = require("body-parser");
+var PORT = process.env.PORT || 8080;
+/** Create express app */
+var app = express();
+
+/** Define usage for the app */
+app.use(express.static("public"));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.text());
+app.use(bodyParser.json({ type: "application/vnd.api+json" }));
+
+ //** Set up handlebars */
 app.engine("handlebars", bars({defaultLayout: "main"}));
 app.set("view engine", "handlebars");
-var apiRoutes = require("./models/burgers-controller.js");
-app.use(apiRoutes);
-app.listen(3306); 
+
+/** Allow proper routing of the app */
+var burger = require("./models/burger.js");
+require("./controllers/burgers_controller.js")(app, burger);
+
+app.listen(PORT, function(){
+    console.log("Listening on PORT " + PORT);
+});

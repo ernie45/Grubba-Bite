@@ -1,19 +1,28 @@
-var express = require("express");
-var burger = require("../models/burger.js");
-var router = express.Router();
-router.get("/", function(req, res){
-    burger.selectAll(function(data){
-        var burgerObj = {
-            burgers: data
-        }
-        res.render("index", burgerObj);
+module.exports = function(app, burger){
+    app.get("/", function(req, res){
+        burger.selectAll(function(data){
+            var burgersObject = {
+                burgers: data
+            };
+            res.render("index", burgersObject);
+        });
+    }),
+    app.post("/api/burgers", function(req, res){
+        burger.insertOne(req.body.burger_name, function(data){
+            
+        });
+        res.end();
     });
-});
-router.get("/api/burgers", function(req, res){
-    res.json(burgers.selectAll());
-});
-router.post("/api/burgers", function(req, res){
-    burgers.insertOne(req.body.burger_name, req.body.devoured, req.body.date);
-    res.end();
-});
-module.exports = router; 
+    app.put("/api/burgers/:id", function(req, res){
+        burger.updateOne(req.params.id, req.body.devoured, function(data){
+            console.log(req.body.devoured);
+        });
+        res.end();
+    });
+    app.delete("/api/burgers/:id", function(req, res){
+        burger.deleteOne(req.params.id, function(data){
+            console.log("Deleted One");
+        });
+        res.end();
+    });
+};
