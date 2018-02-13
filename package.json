@@ -1,10 +1,13 @@
 {
-  "name": "burger",
+  "name": "GrubbaBite",
   "version": "1.0.0",
   "description": "User can log favorite type of burger and choose to eat it.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": "8.9.3"
   },
   "repository": {
     "type": "git",

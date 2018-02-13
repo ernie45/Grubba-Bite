@@ -17,7 +17,7 @@
         {{#unless devoured}}
           <li>
             {{this.burger_name}}
-            <button class="change-devoured" data-id="{{this.id}}" data-currentDevouredState="{{this.devoured}}">Devour</button>
+            <button class="devour" data-id="{{this.id}}" data-currentDevouredState="{{this.devoured}}">Devour</button>
             <button class="delete-burger" data-id="{{this.id}}">DELETE!</button>
           </li>
         {{/unless}}
@@ -41,9 +41,9 @@
 
 <div class="col-md-4"></div>
 <div class="col-md-4">
-  <form class="create-form">
+  <form class="create-burger-form">
     <div class="form-group">
-      <input class="center-block" type="text" id="burg" name="burger_name">
+      <input class="center-block" type="text" id="burger" name="burger_name">
     </div>
     <div class="row">
       <div class="col-md-5"></div>
