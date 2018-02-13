@@ -1,3 +1,5 @@
+/** This function takes in an express app as argument upon which to work on */
+/** It also takes in the models that allow access to the app's ORM */
 module.exports = function(app, burger){
 
 
